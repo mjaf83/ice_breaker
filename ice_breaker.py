@@ -22,8 +22,8 @@ def ice_breaker_with(name: str) -> str:
         template=summary_template,
     )
 
-    llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
-    #llm = ChatOllama(model="deepseek-r1:8b")
+    #llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+    llm = ChatOllama(model="deepseek-r1:14b")
 
     chain = summary_prompt_template | llm | StrOutputParser()
 
