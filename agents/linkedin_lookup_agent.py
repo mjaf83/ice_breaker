@@ -16,8 +16,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from tools.tools import get_profile_tavily_url
 
 def lookup(name: str) -> str:
-    llm = ChatOllama(model="deepseek-r1:14b")
-    #llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+    #llm = ChatOllama(model="deepseek-r1:14b")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
     template = """ Given the full name of a person {name_of_person} I want you to get it me a link to their LinkedIn profile page.
                 Your answer should contain only a URL."""

@@ -3,10 +3,25 @@ from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
-from output_custom_parsers import summary_parser
+from typing import List, Dict, Any
+
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
 language = "Spanish"
+
+class Summary(BaseModel):
+    summary: str = Field(description="summary")
+    facts: List[str] = Field(description="Interesting facts about them")
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "summary": self.summary,
+            "facts": self.facts,
+        }
+
+summary_parser = PydanticOutputParser(pydantic_object=Summary)
 
 def ice_breaker_with(name: str) -> str:
     linkedin_username = linkedin_lookup_agent(name=name)
@@ -26,8 +41,8 @@ def ice_breaker_with(name: str) -> str:
             }
     )
 
-    #llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
-    llm = ChatOllama(model="deepseek-r1:14b")
+    llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+    #llm = ChatOllama(model="deepseek-r1:14b")
 
     chain = summary_prompt_template | llm | summary_parser
 
