@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
-from output_parsers import summary_parser
+from output_custom_parsers import summary_parser
 from dotenv import load_dotenv
 
 language = "Spanish"
