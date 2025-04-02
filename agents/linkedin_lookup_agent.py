@@ -17,7 +17,7 @@ from tools.tools import get_profile_tavily_url
 
 def lookup(name: str) -> str:
     #llm = ChatOllama(model="deepseek-r1:14b")
-    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
 
     template = """ Given the full name of a person {name_of_person} I want you to get it me a link to their LinkedIn profile page.
                 Your answer should contain only a URL."""

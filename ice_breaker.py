@@ -31,7 +31,7 @@ def ice_breaker_with(name: str) -> Tuple[Summary, str]:
     summary_template = """
         Given likedin information {information} a person that i want you to create in language {language}:
         1. A short summary.
-        2. Two interesting facts about them.
+        2. Three interesting facts about them.
         \n{format_instructions}
         """
     summary_prompt_template = PromptTemplate(
@@ -42,7 +42,7 @@ def ice_breaker_with(name: str) -> Tuple[Summary, str]:
             }
     )
 
-    llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0, model="gpt-4o-mini")
     #llm = ChatOllama(model="deepseek-r1:14b")
 
     chain = summary_prompt_template | llm | summary_parser
