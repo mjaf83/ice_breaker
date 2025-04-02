@@ -4,6 +4,7 @@ from langchain_ollama import ChatOllama
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from typing import List, Dict, Any
+from typing import Tuple
 
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
@@ -23,7 +24,7 @@ class Summary(BaseModel):
 
 summary_parser = PydanticOutputParser(pydantic_object=Summary)
 
-def ice_breaker_with(name: str) -> str:
+def ice_breaker_with(name: str) -> Tuple[Summary, str]:
     linkedin_username = linkedin_lookup_agent(name=name)
     linkedin_data = scrape_linkedin_profile(profile_url=linkedin_username, mock=True)
 
@@ -46,9 +47,9 @@ def ice_breaker_with(name: str) -> str:
 
     chain = summary_prompt_template | llm | summary_parser
 
-    res= chain.invoke(input={"information": linkedin_data, "language": language})
+    res:Summary= chain.invoke(input={"information": linkedin_data, "language": language})
 
-    print(res)
+    return res, linkedin_data["photoUrl"]
 
 if __name__ == '__main__':
     load_dotenv()
